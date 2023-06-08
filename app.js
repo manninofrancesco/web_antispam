@@ -28,8 +28,13 @@ function checkStringToxicity(event) {
     let text = [event.target.value];
 
     model.classify(text).then(predictions => {
-        let correctPrediction = predictions.filter(
-            p => p.results[0].match == true)[0];
-        resultTextarea.innerHTML = "Classified as: " + correctPrediction.label;
+        let correctPredictions = predictions.filter(
+            p => p.results[0].match == true);
+
+        if(correctPredictions && correctPredictions.length > 0){
+            resultTextarea.innerHTML = "Classified as: " + correctPredictions[0].label;
+        }else{
+            resultTextarea.innerHTML = "Could not classify this word, try with another."
+        }
     });
 }
